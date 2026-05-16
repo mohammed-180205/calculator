@@ -31,7 +31,7 @@ switch(operator){
 
     case "/":
         if(num2 == 0){
-            return "fuck you";
+            return "ERROR! Can't divide by 0!";
         } else{
             return divide(num1,num2);
         }
@@ -41,26 +41,42 @@ switch(operator){
 let result = "";
 let setState = true;
 let operatorState = false;
+let isResultDisplayed = false;
+
 let inputBox = document.querySelector("input");
 let num1btn = document.querySelectorAll(".number");
+
 num1btn.forEach((item) => {
 item.addEventListener("click", () => {
+    if(isResultDisplayed){
+        num1 = "";
+        operator = "";
+        inputBox.value = "";
+        setState = true;
+        operatorState = false;
+
+    } 
+            isResultDisplayed = false;
+
+
     if(setState){
     num1 += item.textContent;
-} else{
+    } else{
     num2 += item.textContent;
     operatorState = true;
-}
+    }
     inputBox.value += item.textContent;
-    
+
     
 
 })
 })
+
 
 let operatorBtn = document.querySelectorAll(".operator");
 operatorBtn.forEach((item) => {
 item.addEventListener("click", () => {
+    isResultDisplayed = false;
     if(operatorState){
         num1 = Number(num1);
         num2 = Number(num2);
@@ -95,6 +111,8 @@ equalSign.addEventListener("click", () => {
 inputBox.value = result;
 num1 = result;
 num2 = "";
+isResultDisplayed = true;
+operatorState = false;
 });
 
 let clear = document.querySelector(".clear");
@@ -103,6 +121,8 @@ clear.addEventListener("click", () => {
     num2 = "";
     inputBox.value = "";
     setState = true;
+    operatorState = false;
+    isResultDisplayed = false;
 })
 
 
