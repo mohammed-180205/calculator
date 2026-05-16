@@ -1,0 +1,18 @@
+.calc{
+    width: 200px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 20px;
+    margin: 10px;
+}
+
+.firstRow{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    
+
+}
+
