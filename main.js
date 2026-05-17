@@ -76,7 +76,7 @@ item.addEventListener("click", () => {
 })
 })
 
-document.addEventListener("keydown", () => {
+document.addEventListener("keydown", (event) => {
     if(event.key >= "0" && event.key <= "9"){
     numberEdit(event.key);
     } 
@@ -93,11 +93,17 @@ function operatorFunction(num){
         num2 = Number(num2);
         result = operate(num1, operator, num2);
         num1 = result.toString();
+        if(num1.includes(".")){
+        isDot = true;
+        } else{
+            isDot = false;
+}
         num2 = "";
         operator = num;
         inputBox.value = "";
         inputBox.value += num1 + operator;
         setState = false;
+
         
 
     } else{
@@ -116,7 +122,7 @@ operatorFunction(item.textContent);
 })
 })
 
-document.addEventListener("keydown" , () => {
+document.addEventListener("keydown" , (event) => {
     if(event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/"){
         operatorFunction(event.key);
     }
@@ -135,14 +141,19 @@ num1 = result.toString();
 num2 = "";
 isResultDisplayed = true;
 operatorState = false;
-isDot = false;
+if(num1.includes(".")){
+    isDot = true;
+} else{
+    isDot = false;
+}
+
 }
 
 equalSign.addEventListener("click", () => {
 equalFunction();
 });
 
-document.addEventListener("keydown", () => {
+document.addEventListener("keydown", (event) => {
     if(event.key === "Enter"){
         equalFunction();
     }
@@ -165,40 +176,48 @@ let isDot = false;
 let dot = document.querySelector(".dot");
 
 function dotFunction(){
-if(isDot){
 
-    if(isResultDisplayed){
-        isDot = false;
-    }
-    
-
+if(isResultDisplayed){
+        inputBox.value = "";
+        setState = true;
+        num1 = "0.";
+        num2 = "";
+        setState = true;
+        inputBox.value = num1;
+        isResultDisplayed = false;
 } else{
-    
+        
+        if(isDot){
 
+
+    
+    
+    } else{
     if(setState){
         if(num1 == ""){
-            num1 += 0 + ".";
+            num1 += "0" + ".";
         } else{
             num1 += ".";
         }
-        isDot = true;
         
-        
+
     } else{
         if(num2 == ""){
-            num2 += 0 + ".";
+            num2 += "0" + ".";
         } else{
             num2 += ".";
         }
         
-        isDot = true;
+        
     }
-
-    
+        isDot = true;
+        inputBox.value = num1 + operator + num2;
 }
 
-    inputBox.value = num1 + operator + num2;
+    }
 
+
+    
  }
 
 
@@ -207,7 +226,7 @@ if(isDot){
     dotFunction();
  })
 
- document.addEventListener("keydown" , () => {
+ document.addEventListener("keydown" , (event) => {
     if(event.key === "."){
             dotFunction();
 
@@ -220,22 +239,32 @@ if(isDot){
  let backspace = document.querySelector(".delete");
 
 function backspaceFunction(){
-    if(num1[num1.length -1] == "."){
+    if(num1[num1.length -1] == "." || num2[num2.length -1] == "."){
         isDot = false;
     }
-    if(isResultDisplayed){
-        num1 = num1.slice(0,-1)
-        setState = true;
-        operatorState = false;
-        
+
+    if(setState || isResultDisplayed){
+        num1 = num1.slice(0,-1);
+        inputBox.value = num1;
+    
     } else{
-        num1 = num1.slice(0,-1)
-        num2 = num2.slice(0,-1)
+        if(setState == false && num2 === ""){
+        operator = "";
+        operatorState = false;
+        setState = true;
+        inputBox.value = num1;
+        
     }
+        num2 = num2.slice(0,-1);
+        inputBox.value = num1 + operator + num2;
+    }
+
 
     
 
-    inputBox.value = num1;
+    
+
+    
 
  }
 
@@ -243,7 +272,7 @@ function backspaceFunction(){
 backspaceFunction();
  });
 
- document.addEventListener("keydown" ,() => {
+ document.addEventListener("keydown" ,(event) => {
     if(event.key === "Backspace"){
         backspaceFunction();
     }
