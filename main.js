@@ -77,6 +77,7 @@ let operatorBtn = document.querySelectorAll(".operator");
 operatorBtn.forEach((item) => {
 item.addEventListener("click", () => {
     isResultDisplayed = false;
+    isDot = false;
     if(operatorState){
         num1 = Number(num1);
         num2 = Number(num2);
@@ -87,6 +88,7 @@ item.addEventListener("click", () => {
         inputBox.value = "";
         inputBox.value += num1 + operator;
         setState = false;
+        
 
     } else{
         setState = false;
@@ -113,6 +115,7 @@ num1 = result;
 num2 = "";
 isResultDisplayed = true;
 operatorState = false;
+isDot = false;
 });
 
 let clear = document.querySelector(".clear");
@@ -123,6 +126,48 @@ clear.addEventListener("click", () => {
     setState = true;
     operatorState = false;
     isResultDisplayed = false;
+    isDot = false;
 })
 
+let isDot = false;
+let dot = document.querySelector(".dot");
+ dot.addEventListener("click" , () => {
+if(isDot){
 
+    if(isResultDisplayed){
+        isDot = false;
+    }
+    
+
+} else{
+    
+
+    if(setState){
+        if(num1 == ""){
+            num1 += 0 + ".";
+        } else{
+            num1 += ".";
+        }
+        isDot = true;
+        
+        
+    } else{
+        if(num2 == ""){
+            num2 += 0 + ".";
+        } else{
+            num2 += ".";
+        }
+        
+        isDot = true;
+    }
+
+    
+}
+
+
+    inputBox.value = num1 + operator + num2;
+
+    
+
+
+ })
