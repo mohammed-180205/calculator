@@ -46,8 +46,8 @@ let isResultDisplayed = false;
 let inputBox = document.querySelector("input");
 let num1btn = document.querySelectorAll(".number");
 
-num1btn.forEach((item) => {
-item.addEventListener("click", () => {
+
+function numberEdit(num){
     if(isResultDisplayed){
         num1 = "";
         operator = "";
@@ -60,22 +60,32 @@ item.addEventListener("click", () => {
 
 
     if(setState){
-    num1 += item.textContent;
+    num1 += num;
     } else{
-    num2 += item.textContent;
+    num2 += num;
     operatorState = true;
     }
-    inputBox.value += item.textContent;
+    inputBox.value += num;
 
-    
+}
 
+
+num1btn.forEach((item) => {
+item.addEventListener("click", () => {
+    numberEdit(item.textContent);
 })
+})
+
+document.addEventListener("keydown", () => {
+    if(event.key >= "0" && event.key <= "9"){
+    numberEdit(event.key);
+    } 
 })
 
 
 let operatorBtn = document.querySelectorAll(".operator");
-operatorBtn.forEach((item) => {
-item.addEventListener("click", () => {
+
+function operatorFunction(num){
     isResultDisplayed = false;
     isDot = false;
     if(operatorState){
@@ -84,7 +94,7 @@ item.addEventListener("click", () => {
         result = operate(num1, operator, num2);
         num1 = result.toString();
         num2 = "";
-        operator = item.textContent;
+        operator = num;
         inputBox.value = "";
         inputBox.value += num1 + operator;
         setState = false;
@@ -92,21 +102,31 @@ item.addEventListener("click", () => {
 
     } else{
         setState = false;
-    operator = item.textContent;
-    inputBox.value += item.textContent;
+    operator = num;
+    inputBox.value += num;
 
     }
 
-    
-    
-    
+}
 
+
+operatorBtn.forEach((item) => {
+item.addEventListener("click", () => {
+operatorFunction(item.textContent);
 })
 })
+
+document.addEventListener("keydown" , () => {
+    if(event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/"){
+        operatorFunction(event.key);
+    }
+})
+
+
 
 let equalSign = document.querySelector(".equalTo");
 
-equalSign.addEventListener("click", () => {
+function equalFunction(){
     num1 = Number(num1);
     num2 = Number(num2);
     let result = operate(num1, operator, num2);
@@ -116,7 +136,19 @@ num2 = "";
 isResultDisplayed = true;
 operatorState = false;
 isDot = false;
+}
+
+equalSign.addEventListener("click", () => {
+equalFunction();
 });
+
+document.addEventListener("keydown", () => {
+    if(event.key === "Enter"){
+        equalFunction();
+    }
+});
+
+
 
 let clear = document.querySelector(".clear");
 clear.addEventListener("click", () => {
@@ -131,7 +163,8 @@ clear.addEventListener("click", () => {
 
 let isDot = false;
 let dot = document.querySelector(".dot");
- dot.addEventListener("click" , () => {
+
+function dotFunction(){
 if(isDot){
 
     if(isResultDisplayed){
@@ -166,10 +199,27 @@ if(isDot){
 
     inputBox.value = num1 + operator + num2;
 
+ }
+
+
+
+ dot.addEventListener("click" , () => {
+    dotFunction();
  })
 
+ document.addEventListener("keydown" , () => {
+    if(event.key === "."){
+            dotFunction();
+
+    }
+ })
+
+
+
+
  let backspace = document.querySelector(".delete");
- backspace.addEventListener("click" , () => {
+
+function backspaceFunction(){
     if(num1[num1.length -1] == "."){
         isDot = false;
     }
@@ -182,4 +232,14 @@ if(isDot){
 
     inputBox.value = num1;
 
+ }
+
+ backspace.addEventListener("click" , () => {
+backspaceFunction();
  });
+
+ document.addEventListener("keydown" ,() => {
+    if(event.key === "Backspace"){
+        backspaceFunction();
+    }
+ })
