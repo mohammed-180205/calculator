@@ -82,7 +82,7 @@ item.addEventListener("click", () => {
         num1 = Number(num1);
         num2 = Number(num2);
         result = operate(num1, operator, num2);
-        num1 = result;
+        num1 = result.toString();
         num2 = "";
         operator = item.textContent;
         inputBox.value = "";
@@ -111,7 +111,7 @@ equalSign.addEventListener("click", () => {
     num2 = Number(num2);
     let result = operate(num1, operator, num2);
 inputBox.value = result;
-num1 = result;
+num1 = result.toString();
 num2 = "";
 isResultDisplayed = true;
 operatorState = false;
@@ -164,10 +164,22 @@ if(isDot){
     
 }
 
-
     inputBox.value = num1 + operator + num2;
 
-    
-
-
  })
+
+ let backspace = document.querySelector(".delete");
+ backspace.addEventListener("click" , () => {
+    if(num1[num1.length -1] == "."){
+        isDot = false;
+    }
+    if(isResultDisplayed){
+        num1 = num1.slice(0,-1)
+    } else{
+        num1 = num1.slice(0,-1)
+        num2 = num2.slice(0,-1)
+    }
+
+    inputBox.value = num1;
+
+ });
