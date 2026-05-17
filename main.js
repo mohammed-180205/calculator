@@ -103,7 +103,7 @@ function operatorFunction(num){
     } else{
         setState = false;
     operator = num;
-    inputBox.value += num;
+    inputBox.value = num1 + num;
 
     }
 
@@ -225,10 +225,15 @@ function backspaceFunction(){
     }
     if(isResultDisplayed){
         num1 = num1.slice(0,-1)
+        setState = true;
+        operatorState = false;
+        
     } else{
         num1 = num1.slice(0,-1)
         num2 = num2.slice(0,-1)
     }
+
+    
 
     inputBox.value = num1;
 
